@@ -1,0 +1,21 @@
+# Node
+node_modules/
+
+# Environment variables
+.env
+config/.env
+
+# Uploads & temp files
+tmp_uploads/
+contact-messages.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/

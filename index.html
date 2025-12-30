@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>TempShare — Instant File Transfer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="TempShare lets you instantly share files between phone and PC using QR code. Upload images, videos, extract text using OCR. No login required.">
+<meta name="keywords" content="QR file sharing, phone to pc transfer, OCR image to text, temporary file sharing, no login file upload">
+<meta name="author" content="TempShare">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="TempShare - Instant QR File Sharing">
+<meta property="og:description" content="Send files from phone to PC instantly using QR code. No login. OCR supported.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourdomain.com">
+
+<link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+<style>
+/* ===== BASE ===== */
+:root {
+      --primary: #6366f1;
+      --secondary: #38bdf8;
+      --text-dark: #0f172a;
+      --text-muted: #475569;
+      --border-soft: #cbd5e1;
+      --bg-soft: #f8fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(99,102,241,0.12), transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(56,189,248,0.12), transparent 40%),
+        #f1f5f9;
+      color: var(--text-dark);
+    }
+
+   /*==== NAVBAR ====*/
+/* GLASS NAVBAR */
+.glass-navbar {
+  background: rgba(0, 0, 0, 0.034);
+  transition: 0.3s ease;
+  backdrop-filter: blur(30px);
+  border-radius: 10px;
+  width: var(--container-width);
+  height: var(--container-height);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* LOGO */
+.logo1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.logo1 img {
+  width: 34px;
+}
+
+/* DESKTOP LINKS */
+.nav-links {
+  display: flex;
+  gap: 34px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-links a:hover {
+  color: #2563eb;
+}
+
+/* ACTION BUTTONS */
+.nav-actions {
+  display: flex;
+  gap: 14px;
+}
+
+.btn {
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn.ghost {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid #e5e7eb;
+  color: #334155;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #2563eb, #3c8cfb);
+  color: white;
+  box-shadow: 0 10px 24px rgba(22, 56, 249, 0.35);
+}
+
+/* MOBILE */
+.menu-toggle {
+  display: none;
+  font-size: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(16px);
+  padding: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.mobile-menu a {
+  padding: 12px 0;
+  text-decoration: none;
+  font-weight: 500;
+  color: #334155;
+}
+
+.mobile-menu .primary-link {
+  color: #f97316;
+  font-weight: 700;
+}
+
+/* RESPONSIVE BREAKPOINT */
+@media (max-width: 900px) {
+  .nav-links,
+  .nav-actions {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
+
+.hero1 {text-align: center;margin-bottom: 40px;}
+.brand {display: flex;align-items: center;justify-content: center;gap: 14px;margin-bottom: 14px;}
+.site-logo {width: 46px;height: 46px;object-fit: contain;}
+
+.brand h1 {font-family: 'Poppins', sans-serif;font-size: 42px;margin: 0;color: #475569;}
+.tagline {font-weight: 600;}
+.subtext {color: #64748b;}
+
+
+/* ===== CONTAINER ===== */
+.container {max-width: 1100px;margin: auto;}
+
+/* ===== HERO ===== */
+.hero {text-align: center;margin-bottom: 22px;}
+.hero h1 {font-family: 'Poppins', 'Inter', system-ui, sans-serif;font-size: 34px;font-weight: 700;}
+.hero p {color: #475569;font-size: 15px;font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;}
+
+/* ===== GLASS CARD ===== */
+.card {background: rgba(255,255,255,0.75);backdrop-filter: blur(14px);border-radius: 20px;padding: 24px;box-shadow: 0 20px 40px rgba(15,23,42,0.08);max-width: 920px;margin: 0 auto;}
+
+/* ===== GRID ===== */
+.grid {display: grid;grid-template-columns: 1fr 1fr;gap: 24px;}
+
+.grid > div {border: 2px dashed #c7d2fe;border-radius: 18px;padding: 24px;}
+@media (max-width: 800px) {
+  .grid { grid-template-columns: 1fr; }
+}
+
+/* ===== TOKEN ===== */
+.token {background: #eef2ff;padding: 10px;border-radius: 10px;font-family: monospace;font-size: 13px;word-break: break-all;}
+
+/* ===== QR ===== */
+.qr-circle {position: relative; width: 260px;height: 260px;border-radius: 20%;border: 3px dotted #6366f1;display: flex;align-items: center;justify-content: center;background: white;}
+.qr-circle img {width: 200px;height: 200px;object-fit: contain;opacity: 0;display: block;z-index: 2;}
+/* SKELETON */
+.qr-skeleton {position: absolute;width: 200px;height: 200px;background: linear-gradient(100deg,#e5e7eb 40%,#f1f5f9 50%,#e5e7eb 60%);background-size: 200% 100%;animation: skeleton 1.2s infinite ease-in-out;z-index: 1;}
+
+@keyframes skeleton {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.qr-box {display: flex;flex-direction: column;align-items: center;gap: 12px;}
+.qr-box img {width: 220px;height: 220px;}
+.qr-box span {color: #64748b;font-size: 14px;}
+
+/* ===== UPLOAD ===== */
+.file-input {display: flex;align-items: center;gap: 10px;padding: 14px 18px;border: 2px dashed #c7d2fe;border-radius: 14px;cursor: pointer;
+  color: #475569;transition: background 0.2s ease, border-color 0.2s ease;}
+
+.file-input:hover {background: #eef2ff;border-color: #6366f1;}
+
+.file-input i {font-size: 20px;color: #6366f1;}
+
+/*.upload-btn {margin-top: 12px;width: 40%;background: #6366f1;color: white;border: none;padding: 12px;border-radius: 12px;cursor: pointer;font-size: 15px;}*/
+
+.upload-btn:hover {background: #4f46e5;}
+
+.upload-box {display: flex;flex-direction: column;align-items: center;gap: 14px;}
+.upload-box input {width: 100%;}
+.upload-box button {background: #6366f1;color: white;border: none;padding: 10px 18px;border-radius: 10px;cursor: pointer;transition: background 0.2s ease;}
+.upload-box button:hover {background: #4f46e5;}
+
+/* ===== FILES ===== */
+.section-title {text-align: center;margin: 40px 0 16px;}
+#filesList {display: flex;flex-direction: column;gap: 28px;}
+
+/* ===== RECEIVED FILES ===== */
+.received-row {display: grid;grid-template-columns: 420px 420px;gap: 24px;justify-content: center;}
+@media (max-width: 900px) {
+  .received-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ocr-lang-wrap {gap: 12px;align-items: center;margin: 12px 0 20px;}
+.ocr-lang-wrap label {font-weight: 600;color: #444;}
+.ocr-lang-wrap select {padding: 8px 14px;border-radius: 10px;border: 1px solid #d0d7e2;background: #fff;font-size: 14px;cursor: pointer;}
+
+
+.received-preview {position: relative;background: #000;border-radius: 16px;height: 220px;overflow: hidden;}
+.received-preview img,
+.received-preview video {width: 100%;height: 100%;object-fit: contain;}
+
+.received-preview::after {content: '';position: absolute;bottom: 0;height: 50px;width: 100%;background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);}
+
+.download-btn {position: absolute;bottom: 12px;left: 12px;width: 38px;height: 38px;background: rgba(0,0,0,0.6);border-radius: 50%;
+  display: flex;align-items: center;justify-content: center;opacity: 0;cursor: pointer;transition: opacity 0.2s ease;}
+.received-preview:hover .download-btn {opacity: 1;}
+.download-btn i {color: white;}
+
+/* ===== OCR ===== */
+.received-ocr {height: 220px;border-radius: 16px;padding: 14px;resize: none;border: 1px solid #cbd5f5;font-family: inherit;}
+
+/* ===== FOOTER ===== */
+.site-footer {margin-top: 80px;background: #f1f5f9;border-top: 2px dotted #cbd5e1;color: #475569;font-size: 14px;}
+.footer-container {max-width: 1100px;margin: auto;padding: 40px 20px;display: grid;grid-template-columns: 1.5fr 1fr 1fr 1fr;gap: 28px;}
+.site-footer h3 {font-size: 20px;font-weight: 700;color: #0f172a;margin-bottom: 10px;}
+.site-footer h4 {font-size: 15px;font-weight: 600;color: #1e293b;margin-bottom: 12px;}
+.footer-about p {line-height: 1.6;max-width: 340px;}
+.footer-links ul {list-style: none;padding: 0;margin: 0;}
+.footer-links li {margin-bottom: 8px;}
+.footer-links a {text-decoration: none;color: #475569;transition: color 0.2s ease, padding-left 0.2s ease;}
+.footer-links a:hover {color: #6366f1;padding-left: 4px;}
+.footer-bottom {border-top: 1px dotted #cbd5e1;text-align: center;padding: 14px 10px;font-size: 13px;color: #64748b;}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
+}
+.site-header {display: flex;align-items: center;gap: 14px;}
+.site-logo {width: 44px;height: 44px;object-fit: contain;filter: drop-shadow(0 6px 14px rgba(0,0,0,.15));}
+.site-header h1 {font-family: 'Poppins', sans-serif;font-size: 42px;margin: 0;}
+@media (max-width: 480px) {
+  .site-logo {width: 36px;height: 36px;}
+  .site-header h1 {font-size: 32px;}
+}
+
+.legal-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.6);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.legal-modal.active {
+  display: flex;
+}
+
+.legal-box {
+  max-width: 700px;
+  width: 92%;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: rgba(255,255,255,.92);
+  border-radius: 26px;
+  padding: 36px;
+  border: 2px dotted #cbd5e1;
+  box-shadow: 0 30px 70px rgba(15,23,42,.3);
+  position: relative;
+  animation: modalUp .35s ease;
+}
+
+@keyframes modalUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.legal-box h2 {
+  font-family: 'Poppins', sans-serif;
+  margin-top: 0;
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+/*=== CONTACT ===*/
+/* CONTACT MODAL */
+.contact-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.6);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.contact-modal.active{
+  display: flex;
+}
+
+.contact-card {
+  max-width: 700px;
+  width: 92%;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: rgba(255,255,255,.92);
+  border-radius: 26px;
+  padding: 36px;
+  border: 2px dotted #cbd5e1;
+  box-shadow: 0 30px 70px rgba(15,23,42,.3);
+  position: relative;
+  animation: modalUp .35s ease;
+}
+
+@keyframes modalUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.row {
+  display: flex;
+  gap: 12px;
+}
+.contact-card h2,
+.contact-card p {
+  text-align: center;
+}
+.contact-card input,
+.contact-card textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+}
+
+textarea {
+  resize: none;
+  height: 120px;
+}
+
+.send-btn {
+  margin-top: 18px;
+  width: 100%;
+  height: 48px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #6aa5ff, #3b6cff);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.send-btn.loading .btn-text { display: none; }
+.send-btn.loading .loader {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.inp-token{
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.user-tools {
+  display: flex;
+  gap: 8px; /* space between buttons; adjust as needed /
+align-items: center; / vertical alignment if text differs in height */
+}
+/* Optional: ensure buttons have consistent height if they’re different */
+.user-tools .upload-btn,
+.user-tools .secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;background: #6366f1;color: white;border: none;padding: 10px;border-radius: 12px;cursor: pointer;font-size: 15px
+}
+
+.user-tools .fetch-btn,
+.user-tools .resume-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 1px;
+  word-spacing: 5px;
+  margin-top: 5%;
+  width: fit-content;
+  background: #6366f1;
+  border: none;
+  color: white;
+  padding: 9px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.resume-btn:hover {
+  background: #eef2ff;
+}
+
+/*=== DOCS VIEW ===*/
+.file-card {
+  display: flex;
+  align-items: stretch;
+  gap: 22px;
+
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 22px 26px;
+  border: 1px solid #eef2ff;
+
+  min-height: 120px;
+  flex: 1;
+}
+.file-icon {
+  width: 108px;
+  height: 108px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f8fafc;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.file-icon:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px rgba(80, 130, 255, 0.15);
+}
+
+
+.file-icon svg {
+  width: 44px;
+  height: 44px;
+}
+.file-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.file-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.file-info {
+  font-size: 14px;
+  color: #475569;
+}
+
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  background: #6366f1;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.download-btn i {
+  font-size: 15px;
+}
+
+.download-btn:hover {
+  background: #4f46e5;
+  box-shadow: 0 10px 18px rgba(99, 102, 241, 0.35);
+  transform: translateY(-1px);
+}
+
+.download-btn2:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.received-ocr {
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  padding: 16px;
+  border: 2px dashed #c7d2fe;
+  resize: none;
+}
+.received-ocr2 {
+  width: 100%;
+  min-height: 120px;
+
+  background: #f8fafc;
+  border: 1px dashed #c7d2fe;
+  border-radius: 18px;
+
+  padding: 16px;
+  font-size: 14px;
+  color: #64748b;
+
+  resize: none;
+}
+
+.received-ocr2:disabled {
+  opacity: 0.7;
+}
+.received-row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+@media (max-width: 900px) {
+  .received-row2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.btn-disabled{
+  cursor: not-allowed;
+}
+
+#progressWrap {
+  width: 70%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg,#6366f1,#22c55e);
+  transition: width 0.25s ease;
+}
+</style>
+
+<script>
+function openContact() {
+  const modal = document.getElementById('contactModal');
+  if (!modal) {
+    console.error('Contact modal not found');
+    return;
+  }
+  modal.style.display = 'flex';
+}
+
+function closeContact() {
+  document.getElementById('contactModal').style.display = 'none';
+}
+</script>
+</head>
+
+<body>
+<header class="glass-navbar">
+  <div class="nav-container">
+
+    <!-- Logo -->
+    <div class="logo1">
+      <img src="../assets/images/logo.png" alt="TempShare Logo">
+      <span>tempShare</span>
+    </div>
+
+    <!-- Desktop Nav -->
+    <nav class="nav-links">
+      <a href="/docs">Features</a>
+      <a href="/qrsharing-working">File Transfer</a>
+      <a href="/image-to-text">Image to text</a>
+      <a href="/best-tools-online">Best Tools</a>
+    </nav>
+
+    <!-- Actions -->
+    <div class="nav-actions">
+      <button class="btn ghost" onclick="openContact()">Contact</button>
+      <a href="#" class="btn primary">Get Start</a>
+    </div>
+
+    <!-- Mobile Toggle -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/docs">Features</a>
+    <a href="/qrsharing-working">File Transfer</a>
+    <a href="/image-to-text">Image to text</a>
+    <a href="/best-tools-online">Best Tools</a>
+    <hr>
+    <button class="btn ghost" onclick="openContact()">Contact</button>
+    <a href="#" class="btn ghost">Get Started</a>
+  </div>
+</header>
+
+<main class="container">
+      <!-- CONTACT MODAL -->
+<div id="contactModal" class="contact-modal">
+  <div class="contact-card">
+    <button class="close-btn" onclick="closeContact()">&times;</button>
+    <p style="font-size: x-large;"><strong>Contact @tempShare</strong></p>
+    <p class="subtitle">Have a question, idea, or collaboration? Write to us</p>
+    <form id="contactForm">
+      <!-- Honeypot -->
+      <button class="close-btn" onclick="closeContact()">&times;</button>
+      <input type="text" name="company" style="display:none">
+
+      <div class="row">
+        <input type="text" name="firstName" placeholder="First name" required>
+        <input type="text" name="lastName" placeholder="Last name" required>
+      </div>
+
+      <input type="email" name="email" placeholder="Email address" required>
+
+      <textarea name="message" placeholder="Your message..." required></textarea>
+
+      <button type="submit" class="send-btn">
+        <span class="btn-text">Send message</span>
+        <span class="loader"></span>
+      </button>
+
+      <p class="form-status" id="formStatus"></p>
+    </form>
+  </div>
+</div>
+
+  <br>
+  <section class="hero">
+  <div class="brand">
+    <img src="/assets/images/logo.png" alt="tempShare Logo" class="site-logo">
+    <h1>tempShare</h1>  
+  </div>
+  <p style="text-align: center;">Instantly Send Files from Phone to PC — No App, No Login<br>tempShare lets you send files securely between devices using QR codes —
+      without accounts, tracking, or permanent storage.</p>
+  </section>
+  <section class="card">
+    <p></p>
+    <div class="token" id="token" style="margin-top:16px;text-align:center"></div>
+
+    <section class="grid" style="margin-top:24px">
+      <div class="qr-box" aria-label="QR code for mobile upload">
+        <div class="qr-circle">
+          <div class="qr-skeleton" id="qrSkeleton"></div>
+          <img id="qr" alt="Scan QR code to upload files" />
+        </div>
+
+        <span>Scan with your phone to upload</span>
+      </div>
+
+      <div class="upload-box" aria-label="Upload files from this device">
+        <p><strong>Upload from this device</strong></p>
+        <label class="file-input">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span id="fileLabel">Choose files</span>
+          <input type="file" id="files" multiple hidden />
+        </label>
+        <div class="user-tools">
+          <button class="upload-btn" onclick="upload()">Upload</button>
+          <button id="recoverBtn" class="secondary-btn">
+            <i class="fa-solid fa-download"></i> Uploaded Files
+          </button>
+        </div>
+        
+        <p id="status"></p>
+        <div id="progressWrap" style="display:none; margin-top:10px;">
+          <div id="progressBar"></div>
+        </div>
+
+        <div id="recoverBox" style="display:none">
+        <input class="inp-token" type="text" id="recoverToken" placeholder="Enter your session token" autocomplete="off">
+        <div class="user-tools">
+        <button class="fetch-btn" onclick="recoverFiles()"><i class="fa-solid fa-file-lines"></i> Get Files</button>
+        <button id="resumeBtn" class="resume-btn" onclick="resumeSession()"><i class="fa-solid fa-angles-left"></i> Current Session</button>
+        </div>
+      </div>
+    </section>
+
+    <p class="token" style="margin-top:16px;text-align:center">Copy the session token [valid for 24hours] to get your files within the time limit</p>
+  </section>
+
+  <section class="section-title">
+    <h2><i class="fa-solid fa-file-arrow-down"></i> Received Files</h2>
+
+    <div class="ocr-lang-wrap">
+      <label for="ocrLang">OCR Language</label>
+
+      <select id="ocrLang">
+        <option value="basic">English (Fast)</option>
+        <option class="btn-disabled" disabled>Indian Languages</option>
+        <option class="btn-disabled" disabled>International</option>
+      </select>
+    </div>
+
+    <div id="filesList"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-container">
+
+    <!-- About -->
+    <section class="footer-about">
+      <h3>tempShare</h3>
+      <p>
+        TempShare is a fast, secure, QR-based file sharing tool that lets you
+        transfer files between phone and PC instantly — no login, no app,
+        and automatic file deletion for privacy.
+      </p>
+    </section>
+
+    <!-- Quick Links -->
+    <nav class="footer-links" aria-label="Footer navigation">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="https://en.wikipedia.org/wiki/File_sharing">File Sharing</a></li>
+        <li><a href="https://www.ibm.com/think/topics/file-transfer">Phone to PC File Transfer</a></li>
+        <li><a href="/temp-file-sharing">Temporary File Sharing</a></li>
+        <li><a href="/image-to-text">Image to Text (OCR)</a></li>
+        <li><a href="https://whatsoftware.com/file-hosting-without-registration/">No Login File Upload</a></li>
+      </ul>
+    </nav>
+
+    <!-- Resources -->
+    <nav class="footer-links" aria-label="Resources">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="/qrsharing-working">How QR File Sharing Works</a></li>
+        <li><a href="/best-tools-online">Best OCR Tools Online</a></li>
+        <li><a href="/secure-file-transfer">Secure File Transfer Tips</a></li>
+        <li><a href="/privacy-focused-sharing">Privacy-Focused File Sharing</a></li>
+        <li><a href="/docs">TempShare Documentation</a></li>
+      </ul>
+    </nav>
+
+    <!-- Legal -->
+    <section class="footer-links">
+      <h4>Legal & Info</h4>
+      <ul>
+        <li><a href="#" data-legal="privacy">Privacy Policy</a></li>
+        <li><a href="#" data-legal="terms">Terms of Service</a></li>
+        <li><a href="#" data-legal="security">Security Practices</a></li>
+        <li><a href="#" data-legal="cookies">Cookie Policy</a></li>
+        <li><a href="#" data-legal="disclaimer">Disclaimer</a></li>
+      </ul>
+    </section>
+    <div class="legal-modal" id="legalModal">
+      <div class="legal-box">
+        <button class="close-btn" aria-label="Close">&times;</button>
+        <h2 id="legalTitle"></h2>
+        <div id="legalContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>
+      © <span id="year"></span> TempShare • Temporary QR-Based File Sharing & OCR •
+      Provided By <a href="https://github.com/SketchArtist07"><i class="fa-brands fa-github"></i> SketchArtist07</a> 
+    </p>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+<script>
+const ocrCache = {};
+let sessionToken=null;
+const renderedFiles = new Set();
+let pollingTimer = null;
+
+
+function startPolling() {
+  stopPolling();
+  pollingTimer = setInterval(loadFiles, 3000);
+}
+
+function stopPolling() {
+  if (pollingTimer) {
+    clearInterval(pollingTimer);
+    pollingTimer = null;
+  }
+}
+
+function resumeSession() {
+  document.getElementById('filesList').innerHTML = '';
+  document.getElementById('resumeBtn').style.display = 'none';
+  startPolling();
+}
+
+
+document.getElementById('files').addEventListener('change', function (e) {
+  const label = document.getElementById('fileLabel');
+
+  if (!e.target.files.length) {
+    label.textContent = 'Choose files';
+    return;
+  }
+
+  label.textContent = e.target.files.length + ' file(s) selected';
+});
+
+function runOCROnce({ url, fileName, ocrBox }) {
+  if (ocrCache[fileName]) {
+    ocrBox.value = ocrCache[fileName];
+    return;
+  }
+
+  ocrBox.value = '◒ Extracting…';
+
+  Tesseract.recognize(url, 'eng', { logger: () => {} })
+    .then(({ data: { text } }) => {
+      ocrCache[fileName] = text.trim() || '[◒ No text detected]';
+      ocrBox.value = ocrCache[fileName];
+    })
+    .catch(() => {
+      ocrBox.value = '[◒ OCR failed]';
+    });
+}
+
+const IMAGE_TYPES = /\.(png|jpe?g|webp|bmp|tiff)$/i;
+const VIDEO_TYPES = /\.(mp4|webm|mov|mkv|avi)$/i;
+const NO_OCR_TYPES =
+/\.(pdf|docx?|pptx?|xlsx?|csv|zip|rar|7z|tar|gz|exe|apk|iso|mp3|wav|flac|txt|md|json|xml|html?|css|js|py|java|c|cpp)$/i;
+
+function isImage(name) {
+  return IMAGE_TYPES.test(name);
+}
+function isVideo(name) {
+  return VIDEO_TYPES.test(name);
+}
+function isOther(name) {
+  return NO_OCR_TYPES.test(name);
+}
+
+function createDownloadButton(url, filename) {
+  const d = document.createElement('button');
+  d.className = 'download-btn';
+  d.innerHTML = '<i class="fa-solid fa-download"></i>';
+
+  d.title = `Download ${filename}`;
+  d.setAttribute('aria-label', `Download ${filename}`);
+
+  d.onclick = (e) => {
+    e.stopPropagation();
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  return d;
+}
+
+function formatBytes(bytes) {
+  if (!bytes && bytes !== 0) return '—';
+  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+}
+function formatDate(ts) {
+  if (!ts) return '—';
+  const d = new Date(ts);
+  if (isNaN(d)) return '—';
+  return d.toLocaleString();
+}
+function getFileType(name) {
+  const ext = name.split('.').pop().toUpperCase();
+  return `${ext} file`;
+}
+function createFileIcon() {
+  const div = document.createElement('div');
+  div.className = 'file-icon';
+  div.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none">
+      <path fill="#155EEF" d="M4 4a4 4 0 0 1 4-4h16l12 12v24a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" />
+      <path fill="#fff" d="m24 0 12 12h-8a4 4 0 0 1-4-4z" opacity=".3" />
+      <path
+        stroke="#fff"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        d="M12.8 20h14.4m-14.4 3.2h14.4m-14.4 3.2h14.4m-14.4 3.2H24"
+      />
+    </svg>
+  `;
+  return div;
+}
+
+function renderOtherFile({ f, url }) {
+  const row = document.createElement('div');
+  row.className = 'received-row';
+
+  const docs = document.createElement('div');
+  docs.className = 'file-card';
+
+  const icon = createFileIcon();
+
+  // 🧠 Hover hint
+  icon.title = 'Double-click to download';
+
+  // 🔥 Double-click download
+  icon.addEventListener('dblclick', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(url, '_blank');
+  });
+
+  const meta = document.createElement('div');
+  meta.className = 'file-meta';
+  meta.innerHTML = `
+    <div class="file-name">File Name: ${f.name}</div>
+    <div class="file-info">File Size: ${formatBytes(f.size)}</div>
+    <div class="file-info">File Type: ${getFileType(f.name)}</div>
+    <div class="file-info">Date: ${formatDate(f.mtime)}</div>
+  `;
+
+  const ocr = document.createElement('textarea');
+  ocr.className = 'received-ocr2';
+  ocr.disabled = true;
+  ocr.value = 'OCR not available for this file type';
+
+  docs.append(icon, meta);
+  row.append(docs, ocr);
+
+  return row;
+}
+
+
+
+function renderFile(f, token) {
+  const box = document.getElementById('filesList');
+  const row = document.createElement('div');
+  row.className = 'received-row';
+
+  const url = `/download/${token}/${encodeURIComponent(f.name)}`;
+
+  /* ===== PREVIEW ===== */
+  const preview = document.createElement('div');
+  preview.className = 'received-preview';
+
+  const downloadBtn = createDownloadButton(url, f.name);
+
+  if (isImage(f.name)) {
+    const img = document.createElement('img');
+    img.src = url;
+    preview.appendChild(img, downloadBtn);
+
+    const ocr = document.createElement('textarea');
+    ocr.className = 'received-ocr';
+    ocr.placeholder = '◒ Extracted text…';
+    runOCROnce({ url, fileName: f.name, ocrBox: ocr });
+
+    row.append(preview, ocr);
+  }
+
+  else if (isVideo(f.name)) {
+    const video = document.createElement('video');
+    video.src = url;
+    video.controls = true;
+    video.preload = 'metadata'; // 🚫 no reload
+    preview.appendChild(video);
+
+    const ocr = document.createElement('textarea');
+    ocr.className = 'received-ocr';
+    ocr.disabled = true;
+    ocr.value = 'OCR not available for this file type';
+
+    row.append(preview, ocr);
+  }
+
+  else {
+    const card = renderOtherFile({ f, url });
+    box.appendChild(card);
+    return;
+  }
+ 
+  /* ===== OCR ===== */
+  const ocr = document.createElement('textarea');
+  ocr.className = 'received-ocr';
+
+  if (isOther(f.name)) {
+    ocr.disabled = true;
+    ocr.value = 'OCR not available for this file type';
+  }
+  preview.appendChild(downloadBtn);
+  box.appendChild(row);
+}
+
+
+window.onload=async()=>{
+  const r=await fetch('/new-token');
+  const j=await r.json();
+  sessionToken=j.token;
+
+  document.getElementById('token').innerText='Your Session Token: ' + sessionToken;
+
+  const PUBLIC_URL=location.origin;
+  const mobileLink=PUBLIC_URL+'/mobile?token='+sessionToken;
+  console.log(mobileLink);
+  //document.getElementById('qr').src=
+  //  'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data='+
+  //  encodeURIComponent(mobileLink);
+
+  const qr = document.getElementById("qr");
+  const skeleton = document.getElementById("qrSkeleton");
+
+  // Reset state (important for reloads)
+  qr.style.opacity = "0";
+  skeleton.style.display = "block";
+
+  // Attach handlers FIRST
+  qr.onload = () => {
+    skeleton.style.display = "none";
+    qr.style.opacity = "1";
+  };
+
+  qr.onerror = () => {
+    skeleton.style.display = "none";
+    console.error("QR failed to load");
+  };
+
+  // THEN set src
+  qr.src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+    encodeURIComponent(mobileLink); 
+
+  startPolling()
+};
+
+document.getElementById('recoverBtn').onclick = () => {
+  document.getElementById('recoverBox').style.display = 'block';
+};
+
+
+async function recoverFiles() {
+  stopPolling()
+  document.getElementById('resumeBtn').style.display = 'inline-block';
+  const token = document.getElementById('recoverToken').value.trim();
+  const box = document.getElementById('filesList');
+
+  if (!token) {
+    box.innerHTML = 'Please enter a session token';
+    return;
+  }
+
+  box.innerHTML = 'Loading…';
+
+  const r = await fetch(`/api/recover/${token}`);
+  if (!r.ok) {
+    box.innerHTML = 'Invalid or expired session';
+    return;
+  }
+
+  const data = await r.json();
+
+  if (!data.files || !data.files.length) {
+    box.innerHTML = 'No files found';
+    return;
+  }
+
+  renderedFiles.clear();
+  box.innerHTML = '';
+
+
+  data.files.forEach(f => {
+    const row = document.createElement('div');
+    row.className = 'received-row';
+
+    const preview = document.createElement('div');
+    preview.className = 'received-preview';
+
+    const url =
+      `/api/download/${token}/${encodeURIComponent(f.name)}`;
+
+    let media = null;
+
+    /* ---------- IMAGE ---------- */
+    if (IMAGE_TYPES.test(f.name)) {
+      media = document.createElement('img');
+      media.src = url;
+      media.loading = 'lazy';
+
+      const d = document.createElement('div');
+      d.className = 'download-btn';
+      d.innerHTML = '<i class="fa-solid fa-download"></i>';
+      d.onclick = () => {
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = f.name;
+        a.click();
+      };
+
+      preview.append(media, d);
+      const ocr = document.createElement('textarea');
+      ocr.className = 'received-ocr';
+      ocr.placeholder = 'Extracted text…';
+      runOCROnce({ url, fileName: f.name, ocrBox: ocr });
+      row.append(preview, ocr);
+    }
+
+    /* ---------- VIDEO ---------- */
+    else if (VIDEO_TYPES.test(f.name)) {
+      media = document.createElement('video');
+      media.src = url;
+      media.controls = true;
+      media.preload = 'metadata';
+      preview.append(media);
+    }
+
+    else {
+      const card = renderOtherFile({ f, url });
+      document.getElementById('filesList').appendChild(card);
+    }
+
+    /* ---------- OCR ---------- */
+    const ocr = document.createElement('textarea');
+  
+    ocr.className = 'received-ocr';
+    if (VIDEO_TYPES.test(f.name)) {
+      ocr.placeholder = 'OCR not available for this file type';
+      ocr.disabled = true;
+      ocr.style.opacity = '0.6';
+      row.append(preview, ocr);
+    } else {
+      ocr.placeholder = 'OCR not available for this file type';
+      ocr.disabled = true;
+      ocr.style.opacity = '0.6';
+    }
+    box.append(row);
+  });
+}
+
+
+async function upload() {
+  const input = document.getElementById('files');
+  const status = document.getElementById('status');
+  const bar = document.getElementById('progressBar');
+  const wrap = document.getElementById('progressWrap');
+
+  if (!input.files.length) {
+    alert('Select files');
+    return;
+  }
+
+  const fd = new FormData();
+  for (const f of input.files) fd.append('files', f);
+
+  wrap.style.display = 'block';
+  bar.style.width = '0%';
+  status.innerText = 'Uploading 0%';
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', `/upload?token=${sessionToken}`);
+
+  xhr.upload.onprogress = (e) => {
+    if (!e.lengthComputable) return;
+
+    const percent = Math.round((e.loaded / e.total) * 100);
+    bar.style.width = percent + '%';
+    status.innerText = `Uploading ${percent}%`;
+  };
+
+  xhr.onload = () => {
+    bar.style.width = '100%';
+    status.innerText = 'Upload complete ✔';
+    setTimeout(() => {
+      wrap.style.display = 'none';
+    }, 1200);
+  };
+
+  xhr.onerror = () => {
+    status.innerText = 'Upload failed ❌';
+  };
+
+  xhr.send(fd);
+}
+
+
+async function loadFiles(){
+  if(!sessionToken) return;
+  const r=await fetch('/files?token='+sessionToken);
+  if(!r.ok) return;
+  const j=await r.json();
+  const box=document.getElementById('filesList');
+
+  j.files.forEach(f=>{
+    if (renderedFiles.has(f.name)) return; // 🚫 already shown
+    renderedFiles.add(f.name);
+
+    renderFile(f, sessionToken);
+  });
+}
+
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+}
+
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault(); // 🔴 CRITICAL
+
+  const form = e.target;
+  const button = form.querySelector('.send-btn');
+  const status = document.getElementById('formStatus');
+
+  // Honeypot
+  if (form.company.value) return;
+
+  button.classList.add('loading');
+  status.textContent = '';
+
+  const data = {
+    firstName: form.firstName.value,
+    lastName: form.lastName.value,
+    email: form.email.value,
+    message: form.message.value
+  };
+
+  try {
+    const res = await fetch('/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+    status.textContent = 'Message sent successfully ✅';
+    form.reset();
+
+  } catch (err) {
+    status.textContent = 'Server error ❌';
+  } finally {
+    button.classList.remove('loading');
+  }
+});
+
+
+  const legalData = {
+  privacy: {
+    title: "Privacy Policy",
+    content: `
+    <p class="meta">
+      <strong>Effective Date:</strong> December 22, 2025<br>
+      <strong>Contact:</strong> <a href="mailto:sketchartist769@gmail.com">sketchartist769@gmail.com</a>
+    </p>
+
+    <section>
+      <h2>Lawful Bases for Processing</h2>
+      <p>
+        For processing non-personal data in accordance with Article 6 of the GDPR under the following lawful bases:
+      </p>
+      <ul>
+        <li><strong>Contractual necessity</strong> - to provide and maintain our services</li>
+        <li><strong>Consent</strong> - for optional features, analytics, cookies, and marketing</li>
+        <li><strong>Legal obligation</strong> - to comply with regulatory and billing requirements</li>
+        <li><strong>Legitimate interest</strong> - for security, fraud prevention, and service improvement</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Information We Collect</h2>
+      <p>
+        We don't collect your personal information such as your name, email, mob no., etc.
+        Only the content you upload will be stored with us for only about 10 hours and automatically it gets deleted from our server.
+      </p>
+
+      <h3>Technical Information</h3>
+      <ul>
+        <li>IP address, browser type, and access logs</li>
+        <li>Cookies for sessions, preferences, and analytics</li>
+        <li>Device information such as OS type and crash data</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>We Do Not Use Your Information</h2>
+      <p>
+        Your personally identifiable information is not used but we try to improve our services.
+      </p>
+      <ul>
+        <li>Provide uploads functionality</li>
+        <li>Detect fraud and abuse</li>
+        <li>Communicate service updates</li>
+      </ul>
+      <p>
+        We never sell or store your personal data.
+      </p>
+    </section>
+
+    <section>
+      <h2>Cookies and Advertising</h2>
+      <p>
+        We use minimal cookies to improve functionality and user experience. Third-party vendors such as Google
+        may use cookies for advertising purposes.
+      </p>
+      <ul>
+        <li>Opt out of Google Ads personalization via Ads Settings</li>
+        <li>Disable Google Analytics using the browser opt-out add-on</li>
+        <li>Manage cookies through your browser settings</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>GDPR Compliance</h2>
+      <p>
+        We comply fully with GDPR requirements for users in the European Economic Area (EEA).
+      </p>
+
+      <h3>Your GDPR Rights</h3>
+      <ul>
+        <li>Right to access and correct your data</li>
+        <li>Right to erasure (“Right to be Forgotten”)</li>
+        <li>Right to restrict or object to processing</li>
+        <li>Right to data portability</li>
+        <li>Right to withdraw consent</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Children’s Privacy</h2>
+      <p>
+        Our services are not intended for users under 16 years of age.
+        Any data found to belong to minors will be promptly deleted.
+      </p>
+    </section>
+
+    <section>
+      <h2>CCPA Compliance</h2>
+      <p>
+        California residents are entitled to additional rights under the CCPA:
+      </p>
+      <ul>
+        <li>Right to know what data is collected</li>
+        <li>Right to delete personal data</li>
+        <li>Right to non-discrimination</li>
+      </ul>
+    `
+  },
+
+  terms: {
+    title: "Terms of Service",
+    content: `
+      <p class="meta">
+      <strong>Effective Date:</strong> October 9, 2025<br>
+      <strong>Service Name:</strong> TempShare
+    </p>
+
+    <!-- INTRO -->
+    <section>
+      <p>
+        Welcome to TempShare. By accessing or using our website and services,
+        you agree to be bound by these Terms of Service. If you do not agree
+        with any part of these terms, please do not use the service.
+      </p>
+    </section>
+
+    <!-- SERVICE DESCRIPTION -->
+    <section>
+      <h2>1. Description of Service</h2>
+      <p>
+        TempShare provides temporary file sharing and related tools such as
+        QR-based file transfer and browser-based utilities. Files shared through
+        TempShare are intended to be short-lived and automatically deleted after
+        completion or expiration.
+      </p>
+    </section>
+
+    <!-- ELIGIBILITY -->
+    <section>
+      <h2>2. Eligibility</h2>
+      <p>
+        You must be at least 16 years of age to use TempShare. By using the
+        service, you represent that you meet this requirement and have the
+        legal capacity to enter into these terms.
+      </p>
+    </section>
+
+    <!-- USER RESPONSIBILITIES -->
+    <section>
+      <h2>3. User Responsibilities</h2>
+      <p>
+        You agree to use TempShare only for lawful purposes. You must not upload,
+        share, or distribute any content that:
+      </p>
+      <ul>
+        <li>Violates any applicable laws or regulations</li>
+        <li>Infringes intellectual property rights</li>
+        <li>Contains malware, viruses, or harmful code</li>
+        <li>Is abusive, defamatory, or harmful to others</li>
+      </ul>
+    </section>
+
+    <!-- CONTENT OWNERSHIP -->
+    <section>
+      <h2>4. Content Ownership</h2>
+      <p>
+        You retain full ownership of the files you upload. TempShare does not
+        claim ownership over user content. By using the service, you grant
+        TempShare a limited, temporary license to process files solely for the
+        purpose of delivering the service.
+      </p>
+    </section>
+
+    <!-- TEMPORARY STORAGE -->
+    <section>
+      <h2>5. Temporary Storage & Deletion</h2>
+      <p>
+        Files uploaded to TempShare are stored temporarily and are automatically
+        deleted after download, session completion, or expiration. TempShare
+        does not guarantee file availability beyond the intended transfer period.
+      </p>
+    </section>
+
+    <!-- AVAILABILITY -->
+    <section>
+      <h2>6. Service Availability</h2>
+      <p>
+        TempShare is provided on an “as is” and “as available” basis. We do not
+        guarantee uninterrupted or error-free operation and reserve the right
+        to modify or discontinue the service at any time.
+      </p>
+    </section>
+
+    <!-- LIMITATION -->
+    <section>
+      <h2>7. Limitation of Liability</h2>
+      <p>
+        To the maximum extent permitted by law, TempShare shall not be liable
+        for any direct, indirect, incidental, or consequential damages resulting
+        from the use or inability to use the service.
+      </p>
+    </section>
+
+    <!-- TERMINATION -->
+    <section>
+      <h2>8. Termination</h2>
+      <p>
+        We reserve the right to suspend or terminate access to TempShare at any
+        time if these terms are violated or if misuse is detected.
+      </p>
+    </section>
+
+    <!-- CHANGES -->
+    <section>
+      <h2>9. Changes to These Terms</h2>
+      <p>
+        TempShare may update these Terms of Service from time to time. Continued
+        use of the service after changes constitutes acceptance of the updated
+        terms.
+      </p>
+    </section>
+
+    <!-- GOVERNING LAW -->
+    <section>
+      <h2>10. Governing Law</h2>
+      <p>
+        These terms shall be governed by and construed in accordance with
+        applicable laws, without regard to conflict of law principles.
+      </p>
+    </section>
+
+    <!-- CONTACT -->
+    <section>
+      <h2>11. Contact Information</h2>
+      <p>
+        If you have any questions about these Terms of Service, please contact us
+        at <a href="mailto:sketchartist769@gmail.com">sketchartist769@gmail.com</a>.
+      </p>
+    </section>
+
+    <div class="highlight">
+      By using TempShare, you acknowledge that you have read, understood,
+      and agreed to these Terms of Service.
+    </div>
+    `
+  },
+
+  security: {
+    title: "Security Practices",
+    content: `
+      <p class="meta">
+      <strong>Last Updated:</strong> December 22, 2025<br>
+      <strong>Service:</strong> TempShare
+    </p>
+
+    <!-- INTRO -->
+    <section>
+      <p>
+        TempShare follows a <strong>privacy-first security model</strong> designed
+        to minimize data exposure and eliminate unnecessary long-term storage.
+        Security is built into the core architecture of TempShare rather than
+        added as an afterthought.
+      </p>
+    </section>
+
+    <!-- CORE PRINCIPLES -->
+    <section>
+      <h2>Our Core Security Principles</h2>
+      <ul>
+        <li><strong>Temporary session tokens</strong> instead of permanent links</li>
+        <li><strong>No public file URLs</strong> accessible via search engines</li>
+        <li><strong>Automatic cleanup and expiry</strong> of files and sessions</li>
+      </ul>
+    </section>
+
+    <!-- SESSION SECURITY -->
+    <section>
+      <h2>Temporary Session Tokens</h2>
+      <p>
+        Every file transfer on TempShare is protected using short-lived session
+        tokens. These tokens are generated dynamically and are valid only for
+        the duration of the active transfer session.
+      </p>
+      <p>
+        Once a session expires or the transfer is completed, the token becomes
+        invalid and cannot be reused, preventing unauthorized access.
+      </p>
+    </section>
+
+    <!-- NO PUBLIC URLS -->
+    <section>
+      <h2>No Public File URLs</h2>
+      <p>
+        TempShare does not expose files through permanent or publicly indexed
+        URLs. Files are never accessible through guessable links or open
+        directories.
+      </p>
+      <p>
+        Access is restricted to session-based identifiers, often delivered via
+        QR codes or private links that exist only during the active session.
+      </p>
+    </section>
+
+    <!-- AUTO EXPIRY -->
+    <section>
+      <h2>Automatic Cleanup & Expiry</h2>
+      <p>
+        Files uploaded to TempShare are automatically deleted after download,
+        session timeout, or expiration. This ensures that files do not remain
+        stored longer than necessary.
+      </p>
+      <p>
+        Automatic cleanup reduces storage risk, prevents data accumulation,
+        and significantly limits the impact of potential security incidents.
+      </p>
+    </section>
+
+    <!-- TRANSMISSION SECURITY -->
+    <section>
+      <h2>Secure Data Transmission</h2>
+      <p>
+        All data transfers between your device and TempShare are protected using
+        modern encrypted connections (HTTPS/TLS). This prevents interception,
+        tampering, and man-in-the-middle attacks during file upload and download.
+      </p>
+    </section>
+
+    <!-- ACCESS CONTROL -->
+    <section>
+      <h2>Access Control & Abuse Prevention</h2>
+      <p>
+        TempShare implements safeguards to prevent misuse of the platform,
+        including rate limiting, session validation, and monitoring for abusive
+        behavior.
+      </p>
+      <p>
+        These measures help protect users from automated attacks, unauthorized
+        access attempts, and service abuse.
+      </p>
+    </section>
+
+    <!-- USER RESPONSIBILITY -->
+    <section>
+      <h2>User Responsibilities</h2>
+      <p>
+        While TempShare applies strong security practices, users are responsible
+        for sharing session links or QR codes only with trusted recipients.
+        Anyone with access to an active session may download the file.
+      </p>
+    </section>
+
+    <!-- LIMITATIONS -->
+    <section>
+      <h2>Security Limitations</h2>
+      <p>
+        No online service can guarantee absolute security. TempShare continuously
+        improves its security practices, but users should avoid sharing highly
+        sensitive or regulated data if such sharing is prohibited by law.
+      </p>
+    </section>
+
+    <!-- UPDATES -->
+    <section>
+      <h2>Updates to Security Practices</h2>
+      <p>
+        TempShare may update its security practices to address emerging threats,
+        improve protections, or comply with regulatory requirements. Updates
+        will be reflected on this page.
+      </p>
+    </section>
+
+    <div class="highlight">
+      TempShare is designed to reduce risk by default — files are temporary,
+      access is limited, and data disappears once its purpose is fulfilled.
+    </div>
+    `
+  },
+
+  cookies: {
+    title: "Cookie Policy",
+    content: `
+      <section>
+      <h4>Cookies and Advertising</h4>
+      <p>
+        We use cookies to improve functionality and user experience. Third-party vendors such as Google
+        may use cookies for advertising purposes.
+      </p>
+      <ul>
+        <li>Opt out of Google Ads personalization via Ads Settings</li>
+        <li>Disable Google Analytics using the browser opt-out add-on</li>
+        <li>Manage cookies through your browser settings</li>
+      </ul>
+    </section>
+      <p>In Short: TempShare uses minimal cookies.</p>
+      <ul>
+        <li>Session cookies only</li>
+        <li>No third-party trackers</li>
+      </ul>
+
+    `
+  },
+
+  disclaimer: {
+    title: "Disclaimer",
+    content: `
+      <p>TempShare is a temporary file-sharing utility.</p>
+      <ul>
+        <li>No guarantee of availability</li>
+        <li>Use at your own discretion</li>
+        <li>SVG files/images used in this page truly belongs to "https://undraw.co/search" <br> Copyright 2025 Katerina Limpitsouni</li>
+      </ul>
+    `
+  }
+};
+
+const modal = document.getElementById("legalModal");
+const titleEl = document.getElementById("legalTitle");
+const contentEl = document.getElementById("legalContent");
+
+document.querySelectorAll("[data-legal]").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    const key = link.dataset.legal;
+    const data = legalData[key];
+
+    if (!data) return;
+
+    titleEl.textContent = data.title;
+    contentEl.innerHTML = data.content;
+    modal.classList.add("active");
+  });
+});
+
+modal.addEventListener("click", e => {
+  if (e.target === modal || e.target.classList.contains("close-btn")) {
+    modal.classList.remove("active");
+  }
+});
+
+</script>
+</body>
+</html>
